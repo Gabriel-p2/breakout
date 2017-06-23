@@ -14,16 +14,22 @@
 #include "Defs.h"
 #include "NPC.h"
 
+SDL_Event e;
+SDL_Event arrow;
+
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 const int IMAGE_WIDTH = 61;
 const int IMAGE_HEIGHT = 61;
+const int PLAYER_WIDTH = 80;
+const int PLAYER_HEIGHT = 40;
 
 /*The window we'll be rendering to*/
 SDL_Window* gWindow = NULL;
 
 NPC ball;
 NPC bars[30];
+NPC player;
 uint32_t colorkey;
 
 /*The surface contained by the window*/
@@ -32,6 +38,7 @@ SDL_Surface* gScreenSurface = NULL;
 /*Current displayed PNG image*/
 SDL_Surface* gJPGSurface = NULL;
 SDL_Surface* gBlock = NULL;
+SDL_Surface* gPlayer = NULL;
 
 /* Audio for game */
 Mix_Chunk *gBottom = NULL;

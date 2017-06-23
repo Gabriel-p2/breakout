@@ -33,6 +33,20 @@ void moveNPC(NPC *p) {
     }
 }
 
+void movePlayer(NPC *bar, SDL_Event arrow){
+  switch(arrow.type){
+    case SDL_KEYDOWN:
+      switch(arrow.key.keysym.sym){
+        case SDLK_LEFT:
+          bar->posX -= 5;
+          break;
+        case SDLK_RIGHT:
+          bar->posX += 5;
+          break;
+    }
+  }
+}
+
 
 /*Create NPC*/
 NPC createNPC( int posX, int posY, int stepX, int stepY,
@@ -97,12 +111,14 @@ int loadMedia() {
     /*Load PNG surface*/
     gJPGSurface = loadSurface( "./circle.png" );
     gBlock = loadSurface("./block.png");
+    gPlayer = loadSurface("./block.png");
     colorkey = SDL_MapRGB (gJPGSurface -> format, 0xFF, 0xFF, 0xFF);
     SDL_SetColorKey(gJPGSurface, SDL_TRUE, colorkey);
-    if( gJPGSurface == NULL || gBlock == NULL) {
+    if( gJPGSurface == NULL || gBlock == NULL || gPlayer == NULL) {
         printf( "Failed to load image! SDL Error: %s\n", SDL_GetError() );
         success = false;
     }
+
     gBottom = Mix_LoadWAV("./hitbottom.wav");
     if( gBottom == NULL ){
         printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );

@@ -23,11 +23,8 @@
 #include "NPC.h"
 
 int main( int argc, char* args[] ) {
-    SDL_Rect srcRect, dstRect, srcBarsRect, dstBarsRect;
+    SDL_Rect srcRect, dstRect, srcBarsRect, dstBarsRect, srcPlayerRect, dstPlayerRect;
     int quit, curH, curW;
-
-    /*Event handler*/
-    SDL_Event e;
 
     /*Start up SDL and create window*/
     if( !init() ) {
@@ -54,6 +51,8 @@ int main( int argc, char* args[] ) {
               }
             }
 
+            player = createNPC(SCREEN_WIDTH/2 - PLAYER_WIDTH/2, SCREEN_HEIGHT - PLAYER_HEIGHT, 0, 0, gPlayer);
+
             /*Main loop flag*/
             quit = false;
 
@@ -68,6 +67,9 @@ int main( int argc, char* args[] ) {
                             if (e.key.keysym.sym == SDLK_ESCAPE) {
                                 quit = true;
                             }
+                            else{
+                              movePlayer(&player, e);
+                            }
                         break;
                     }
                 }
@@ -78,16 +80,30 @@ int main( int argc, char* args[] ) {
                               0xFF, 0xFF, 0xFF ) );
 
                 moveNPC(&ball);
-
                 srcRect.x = 0; srcRect.y = 0;
                 srcRect.w = IMAGE_WIDTH;
                 srcRect.h = IMAGE_HEIGHT;
+
                 srcBarsRect.x = 0; srcBarsRect.y = 0;
                 srcBarsRect.w = 80;
                 srcBarsRect.h = 40;
+
+                srcPlayerRect.x = 0; srcPlayerRect.y = 0;
+                srcPlayerRect.w = PLAYER_WIDTH;
+                srcPlayerRect.h = PLAYER_HEIGHT;
+
                 dstRect.x = ball.posX;
                 dstRect.y = ball.posY;
+
+                dstPlayerRect.x = player.posX;
+                dstPlayerRect.y = player.posY;
+
                 if( SDL_BlitSurface( ball.image, &srcRect, gScreenSurface, &dstRect ) < 0 )
+                {
+                  printf( "SDL could not blit! SDL Error: %s\n", SDL_GetError() );
+                  quit = true;
+                }
+                if( SDL_BlitSurface( player.image, &srcPlayerRect, gScreenSurface, &dstPlayerRect) < 0 )
                 {
                   printf( "SDL could not blit! SDL Error: %s\n", SDL_GetError() );
                   quit = true;

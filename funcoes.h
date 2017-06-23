@@ -30,4 +30,6 @@ NPC createNPC( int posX, int posY, int stepX, int stepY, SDL_Surface *image);
 /*Move NPC*/
 void moveNPC(NPC *p);
 
+void movePlayer(NPC *bar, SDL_Event arrow);
+
 #endif
